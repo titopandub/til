@@ -1,0 +1,13 @@
+# Zeus crashing Ubuntu 16.04 shell
+
+Saat upgrade ke Ubuntu 16.04, saya menemukan behavior yang aneh saat menghentikan rails server yang melalui zeus. Setelah menekan `Ctrl + C`, shell menjadi rusak tidak bisa menampilkan character yang diketik. Berikut ini fixnya.
+
+1. Buka `~/.bashrc`
+2. Taruh line ini di file tersebut
+```bash
+zeus () { ARGS=$@; command zeus "$@"; ZE_EC=$?; stty sane; if [ $ZE_EC = 2 ]; then zeus "$ARGS"; fi }
+```
+3. Save dan tutup file tersebut
+4. Untuk terminal yang sedang terbuka, ketik `source ~/.bashrc`
+
+Sumber: https://github.com/burke/zeus/issues/469#issuecomment-91345257
